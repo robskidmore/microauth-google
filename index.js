@@ -42,11 +42,7 @@ const microAuthGoogle = ({
   const states = [];
   const oauth2Client = new OAuth2(clientId, clientSecret, callbackUrl)
 
-  scopes = DEFAULT_SCOPES.concat(scopes).reduce((scopes, scope) => {
-    if (scopes.includes(scope)) return scopes
-    scopes.push(scope)
-    return scope
-  })
+  scopes = DEFAULT_SCOPES.concat(scopes.filter(scope => DEFAULT_SCOPES.indexOf(scope) < 0))
 
   return fn => async (req, res, ...args) => {
     const {pathname, query} = url.parse(req.url)
